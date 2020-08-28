@@ -7,7 +7,7 @@ const Form = (props) => {
     shouldFocusError: true,
   });
   // we destruct the props here
-  const { children, classes, onFormSubmit, watchFields, watchCallback } = props;
+  const { children, classes, onFormSubmit, watchFields, watchCallback, refValue } = props;
   // using an effect to handle watching fields and calling back
   // the callback to notify parent on field change
   useEffect(() => {
@@ -15,12 +15,12 @@ const Form = (props) => {
       watchCallback(watch(watchFields));
     }
   });
-
+  // when submit button is clicked, we callback the props onsubmit function
   const handleFormSubmit = (data) => {
     onFormSubmit(data, setError);
   }
   return (
-    <form className={classes} onSubmit={handleSubmit(handleFormSubmit)}>
+    <form ref={refValue} className={classes} onSubmit={handleSubmit(handleFormSubmit)}>
       {children(register,errors)}
     </form>
   );

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import Form from "../../components/Form/Form";
 import Input from "../../components/Input/Input";
 import useSignupService from "./Signup.service";
@@ -39,28 +39,41 @@ const formFields = [
 // name of the fields which he have to watch
 const watchFields = ["email"];
 const Signup = () => {
+  const formRef = useRef();
   const signupService = useSignupService()
   // watch callback handles all watcher fields on change of input
+  // this can be used to handle on change events.
   const watchCallback = (fields) => {
     // console.log(fields);
   }
   // on form submit is called when form is valid and submitted
   const onFormSubmit = async (formFields, setError) => {
-    const {emailCheckResponse, emailCheckError} = await signupService.validateEmail(formFields.email);
+    const emailValid = await checkEmail(formFields.email, setError);
+    if (emailValid) {
+      // if no error in checking emai, we submit the form
+      const message = await signupService.submitForm(formFields);
+      // alert the message from response
+      alert(message);
+    }
+  };
+
+  const checkEmail = async (email, setError) => {
+    const {emailCheckResponse, emailCheckError} = await signupService.validateEmail(email);
     // check if there has been an error in checking email api and set that error under input
     if (emailCheckError) {
+      // set error on email field
       setError("email", {
         type: "manual",
         message: emailCheckError
       });
-    } else {
-      // if no error in checking emai, we submit the form
-      const response = await signupService.submitForm(formFields);
-      console.log(response);
+      // to focus the email input via form ref
+      formRef.current.elements["email"].focus()
+      return false;
     }
-  };
+    return true;
+  }
   return (
-    <Form classes="d-flex flex-column" watchFields={watchFields} watchCallback={watchCallback} onFormSubmit={onFormSubmit}>
+    <Form refValue={formRef} classes="d-flex flex-column" watchFields={watchFields} watchCallback={watchCallback} onFormSubmit={onFormSubmit}>
       {(register, errors) => (
         <React.Fragment>
           {formFields.map((params, index) => (

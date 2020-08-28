@@ -6,7 +6,13 @@ const Input = (props) => {
   return (
     <React.Fragment>
       <label htmlFor={name}>{label}</label>
-      <input type={type} placeholder={label} name={name} ref={refValue} className="input-control"/>
+      <input
+        type={type}
+        placeholder={label}
+        name={name}
+        ref={refValue}
+        className="input-control"
+      />
       <span className="error-text">{error && error.message}</span>
     </React.Fragment>
   );
