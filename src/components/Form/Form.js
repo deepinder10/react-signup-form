@@ -1,5 +1,6 @@
 import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
+import PropTypes from 'prop-types';
 
 const Form = (props) => {
   // we initiliaze our react hook form
@@ -26,4 +27,12 @@ const Form = (props) => {
   );
 };
 
+Form.PropTypes = {
+  classes: PropTypes.string,
+  onFormSubmit: PropTypes.func,
+  children: PropTypes.element.isRequired,
+  watchFields: PropTypes.array,
+  watchCallback: PropTypes.func,
+  refValue: PropTypes.func
+}
 export default Form;
