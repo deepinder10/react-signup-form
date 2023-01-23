@@ -9,4 +9,4 @@ Watchers can be attached to any field just like i have done it on a email input.
 
 This form makes use of Raisely API to validate email if it exists, and if not exits, it submits the form with data.
 
-Running demo of this project can be seen here - https://codesandbox.io/s/little-wood-znsnm
+Running demo of this project can be seen here - https://codesandbox.io/s/github/deepinder10/react-signup-form
